@@ -8,6 +8,14 @@
 <body>
 <style>
 	@font-face {
+	  font-family: "FontAwesome";
+	  src: url("font/fontawesome-webfont.eot");
+	  src: url("font/fontawesome-webfont.eot?#iefix") format('embedded-opentype'), url("font/fontawesome-webfont.woff") format('woff'), url("font/fontawesome-webfont.ttf") format('truetype'), url("font/fontawesome-webfont.svg#FontAwesome") format('svg');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+
+	@font-face {
   	font-family: "IrideFont";
 	  src: url("font/sosa-bariol_regular-webfont.eot");
 	  src: url("font/bariol_regular-webfont.eot?#iefix") format('embedded-opentype'), url("font/bariol_regular-webfont.woff") format('woff'), url("font/bariol_regular-webfont.ttf") format('truetype'), url("font/bariol_regular-webfont.svg#IrideFont") format('svg');
@@ -41,15 +49,50 @@
 	  -moz-border-radius: 5;
 	  border-radius: 5px;
 	  color: #ffffff;
-	  font-size: 20px;
+	  font-size: 15px;
+	  background: none;
+	  border: none;
+	  text-decoration: none;
+	}
+	.btn.classify {
 	  background: #8c8c8c;
 	  padding: 10px 20px 10px 20px;
 	  border: solid #454545 2px;
-	  text-decoration: none;
+    top: -5px;
+    position: relative;
 	}
 
-	.btn:hover {
+	.btn.classify:hover {
 	  background: #ababab;
+	}
+	.reject.btn::before {
+	  font-family: "FontAwesome";
+		content:"";
+		font-size: 40px;
+		color: #D03A2F;
+	}
+	.accept.btn::before {
+	  font-family: "FontAwesome";
+		content:"";
+		font-size: 40px;
+		color: #4CAF50;
+	}
+	.clear.btn::before {
+	  font-family: "FontAwesome";
+		content:"";
+		font-size: 40px;
+		color: #D03A2F;
+	}
+	.btn:hover::before {
+	  color: #CCCCCC;
+	  text-decoration: none;
+	}
+	.clear.btn:hover::before, .reject.btn:hover::before {
+	  color: #EC483C;
+	  text-decoration: none;
+	}
+	.accept.btn:hover::before {
+	  color: #54C359;
 	  text-decoration: none;
 	}
 	.tuple-list {
@@ -60,28 +103,20 @@
 	.tuple-list:last-child {
 		border: none;
 	}
+	.tupla {
+		border-bottom: 1px solid black;
+		margin-bottom: 20px;
+	}
+	.results {
+		padding-top: 10px;
+	}
 </style>
+<script type="text/javascript" src="js/Connection.js"></script>
 <script
 			  src="https://code.jquery.com/jquery-1.12.3.min.js"
 			  integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
 			  crossorigin="anonymous"></script>
-	<div class="prompter-container">
-		<div class="header">
-			<span class="title float-right">Iride CRM Prompter</span>
-			<img src="img/CRM.png" height="50px">
-		</div>
-		<div class="content">
-	  	<textarea id="note" autofocus placeholder='Scrivi la nota operatore' ></textarea>
-	  	<button id="classify" class="btn" onclick="alert($('#note').val())" title="classifica" >Classifica</button>
-	  	<button id="clear" class="btn" onclick="$('#note').val('')" title="classifica" >Annulla</button>
-	  	<button id="reject" class="btn" onclick="" title="classifica" >Rifiuta</button>
-	  </div>
-	  <div class="results">
-	  	<button class="btn btn-accept" >Ok</button>
-	  	<span id="tuple-pippo-1" class="tuple-list" >Info</span>
-	  	<span id="tuple-pippo-2" class="tuple-list">Contatto</span>
-	  	<span id="tuple-pippo-3" class="tuple-list">Credito</span>
-	  </div>
-	</div>
+<script src="js/IrideCRMPrompter.js"></script>
+
 </body>
 </html>
