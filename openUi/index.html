@@ -1,98 +1,23 @@
 <!DOCTYPE html>
-<html><head>
-<meta http-equiv='X-UA-Compatible' content='IE=edge' />
-<meta charset="utf-8">
-<title>Hello World</title>
-
-<script id='sap-ui-bootstrap'
-    src='sapUI/resources/sap-ui-core.js'
-    data-sap-ui-theme='sap_bluecrystal'
-    data-sap-ui-libs='sap.ui.commons,sap.m,sap.ui.dt'
-    data-sap-ui-compatVersion='edge'
-    data-sap-ui-preload='async'>
-
-</script>
-
-<script>
-connection = new WebSocket('ws://127.0.0.1:8080/webSocketServer/test', ['soap', 'xmpp']);
-          connection.onopen = function () {
-//            connection.send('Ping');  Send the message 'Ping' to the server
-};
-
-// Log errors
-connection.onerror = function (error) {
-  console.log('WebSocket Error ' + error + "\nfor connection: " + + error.currentTarget.url);
-};
-
-// Log messages from the server
-connection.onmessage = function (e) {
-  alert(e.data);
-  console.log('Server: ' + e.data);
-};
-
-  sap.ui.getCore().attachInit(function () {
-  	var layout = new sap.ui.commons.layout.MatrixLayout("layout", {width: "100%", columns: 2, widths: "50%"});
-    var accordion = new sap.ui.commons.Accordion("accordion-principal", {width: "100%"})
-    var section1 = new sap.ui.commons.AccordionSection("section1", {title: "Prompter"})
-    var section2 = new sap.ui.commons.AccordionSection("section2", {title: "Other"})
-    var textArea = new sap.ui.commons.TextArea("text-area", {placeholder: "Hello World", width: "100%"});
-    accordion.addSection(section1);
-    accordion.addSection(section2);
-
-    var multiSelection = new sap.ui.commons.ListBox("select-multi", {width: "100%", allowMultiSelect:true});
-    multiSelection.addItem(new sap.ui.core.Item({text:"Pippo", key:"pi"}).setTooltip("PIPPO"));
-    multiSelection.addItem(new sap.ui.core.Item({text:"Pluto", key:"pl"}).setTooltip("PLUTO"));
-    multiSelection.addItem(new sap.ui.core.Item({text:"Paperino", key:"pa"}).setTooltip("PAPERINO"));
-
-    var selectList = new sap.m.Select("select-list");
-    selectList.addItem(new sap.ui.core.Item({text:"Italiano", key:"it"}));
-    selectList.addItem(new sap.ui.core.Item({text:"English", key:"en"}));
-    selectList.addItem(new sap.ui.core.Item({text:"Portuguese", key:"pt"}));
-    selectList. setSelectedKey("en");
-    
-    var button = sap.ui.commons.Button({
-      text: "PressMe",
-      press: function(){
-      	var value = $("#text-area").val();
-        var obj = {
-          "textMessage":value,
-          "language":selectList.getSelectedKey(),
-          "classificationLogicList": [],
-          "notShowExtractedConcepts":true,
-          "notShowNeRecognized":true,
-          "completeClassificationTimeot":1000,
-          "sessionDuration":10,
-          "contactId":"ppp"
-        };
-        obj.classificationLogicList
-        connection.send(JSON.stringify(obj));
-      }
-    });
-    button.addStyleClass("sapMSlt");
-
-
-
-    section1.addContent(textArea);
-    section1.addContent(multiSelection);
-    section1.addContent(button);
-    section1.addContent(selectList);
-  	layout.addRow(new sap.ui.commons.layout.MatrixLayoutRow("layout-row",{
-  		cells: [
-  			new sap.ui.commons.layout.MatrixLayoutCell("cell1", {
-  				content:[accordion],
-  				vAlign: sap.ui.commons.layout.VAlign.Top
-  			}),
-  			new sap.ui.commons.layout.MatrixLayoutCell("cell2", {
-  				content: sap.ui.commons.Panel()
-  			})
-  		]
-  	}) );
-    layout.placeAt("content");
-  });
-</script>
-
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<title>IRIDE CRM PROMPTER </title>
+	<script type="text/javascript" src="js/Connection.js"></script>
+	<script
+		id="sap-ui-bootstrap"
+		src="sapUI/resources/sap-ui-core.js"
+		data-sap-ui-theme="sap_bluecrystal"
+		data-sap-ui-libs="sap.m"
+		data-sap-ui-compatVersion="edge"
+		data-sap-ui-preload="async"
+		data-sap-ui-resourceroots='{
+			"sap.ui.iride": "./"
+		}'>
+	</script>
+	<script type="text/javascript" src="init.js"></script>
 </head>
-<body class='sapUiBody'>
-    <div id='content'></div>
+<body class="sapUiBody" id="content">
 </body>
 </html>

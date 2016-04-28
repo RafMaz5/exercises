@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<title>Iride CRM Prompter</title>
+</head>
+<body>
+<style>
+	@font-face {
+  	font-family: "IrideFont";
+	  src: url("font/sosa-bariol_regular-webfont.eot");
+	  src: url("font/bariol_regular-webfont.eot?#iefix") format('embedded-opentype'), url("font/bariol_regular-webfont.woff") format('woff'), url("font/bariol_regular-webfont.ttf") format('truetype'), url("font/bariol_regular-webfont.svg#IrideFont") format('svg');
+	  font-weight: normal;
+	  font-style: normal;
+	  font-size: 20px;
+	}
+
+	body {
+  	font-family: "IrideFont";
+		color: #2D3E50;
+	  font-size: 20px;
+	}
+	.prompter-container {
+		position: relative;
+		padding: 20px;
+	}
+	.prompter-container textarea {
+		width: 100%;
+	}
+	.title {
+		font-size: 30px;
+	  font-weight: bold;
+		padding-right: 30px;
+	}
+	.float-right {
+		float: right;
+	}
+	.btn {
+	  -webkit-border-radius: 5;
+	  -moz-border-radius: 5;
+	  border-radius: 5px;
+	  color: #ffffff;
+	  font-size: 20px;
+	  background: #8c8c8c;
+	  padding: 10px 20px 10px 20px;
+	  border: solid #454545 2px;
+	  text-decoration: none;
+	}
+
+	.btn:hover {
+	  background: #ababab;
+	  text-decoration: none;
+	}
+	.tuple-list {
+		padding-left: 20px;
+		padding-right: 20px;
+		border-right: 2px solid black;
+	}
+	.tuple-list:last-child {
+		border: none;
+	}
+</style>
+<script
+			  src="https://code.jquery.com/jquery-1.12.3.min.js"
+			  integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
+			  crossorigin="anonymous"></script>
+	<div class="prompter-container">
+		<div class="header">
+			<span class="title float-right">Iride CRM Prompter</span>
+			<img src="img/CRM.png" height="50px">
+		</div>
+		<div class="content">
+	  	<textarea id="note" autofocus placeholder='Scrivi la nota operatore' ></textarea>
+	  	<button id="classify" class="btn" onclick="alert($('#note').val())" title="classifica" >Classifica</button>
+	  	<button id="clear" class="btn" onclick="$('#note').val('')" title="classifica" >Annulla</button>
+	  	<button id="reject" class="btn" onclick="" title="classifica" >Rifiuta</button>
+	  </div>
+	  <div class="results">
+	  	<button class="btn btn-accept" >Ok</button>
+	  	<span id="tuple-pippo-1" class="tuple-list" >Info</span>
+	  	<span id="tuple-pippo-2" class="tuple-list">Contatto</span>
+	  	<span id="tuple-pippo-3" class="tuple-list">Credito</span>
+	  </div>
+	</div>
+</body>
+</html>

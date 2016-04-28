@@ -1,0 +1,23 @@
+<mvc:View
+	controllerName="sap.ui.iride.controller.TupleList"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+  <List
+    id="list"
+    mode="SingleSelectLeft"
+    selectionChange="handleDelete"
+    enableBusyIndicator="true"
+    headerText="{i18n>tupleListTitle}"
+    growing="true"
+    items="{
+      path: 'view>/tuples'
+    }" >
+    <items>
+      <ObjectListItem title="{view>level}" press="handleDelete">
+        <attributes>
+          <ObjectAttribute text="{view>id}" title="InfoId" visible="false"/>
+        </attributes>
+      </ObjectListItem>
+    </items>
+  </List>
+</mvc:View>

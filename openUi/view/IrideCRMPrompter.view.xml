@@ -1,0 +1,24 @@
+<mvc:View
+	controllerName="sap.ui.iride.controller.IrideCRMPrompter"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Panel
+		headerText="{i18n>panelTitle}"
+		class="sapUiResponsiveMargin"
+		width="auto">
+		<content>
+			<TextArea
+				value="{/recipient/note}"
+				valueLiveUpdate="true"
+				liveChange="onAutomaticClassify"
+				width="100%"/>
+			<Button
+				text="{i18n>showHelloButtonText}"
+				press="onClassify"
+				class="myCustomButton"/>
+			<Text
+				text="Hello {/recipient/note}"
+				class="sapUiSmallMargin sapThemeHighlight-asColor myCustomText"/>
+		</content>
+	</Panel>
+</mvc:View>
