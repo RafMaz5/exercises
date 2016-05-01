@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+	<link rel="icon" href="favicon.ico" type="image/x-icon"/>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+	<title>Iride CRM Prompter</title>
+</head>
+<body>
+<style type="text/css">
+	body {
+		margin: 0;
+		padding: 0;
+	}
+	.center {
+		margin: auto;
+	}
+	.container {
+		background-color: beige;
+	}
+	.header {
+		background-color: yellow;
+		height: 200px;
+	}
+	.slider {
+		background-color: darkblue;
+		height: 200px;
+	}
+	.content {
+		background-color: green;
+		height: 200px;
+	}
+	.footer {
+		background-color: black;
+		height: 200px;
+	}
+	.menu {
+		width: 200px;
+    -webkit-transition: 2s; /* Safari */
+    transition: 2s;
+	}
+	.menu-button {
+	  -webkit-border-radius: 0px 0px 5px 5px;
+	  -moz-border-radius: 0px 0px 5px 5px;
+	  border-radius: 0px 0px 5px 5px;
+	  width: 70px;
+    background-color: rgba(96,125,139,0.5);
+    height: 15px;
+    line-height: 0px;
+    top: 50%;
+    position: relative;
+		font-size: 30px;
+		font-weight: bolder;
+		color: beige;
+		cursor: pointer;
+	}
+	.vertical-text {
+		transform: rotate(90deg);
+		transform-origin: left top 0;
+		text-align: center;
+	}
+	.height-100{
+		height: 100%;
+		background-color: white;
+	}
+	.foreground {
+		z-index: 1000;
+	}
+	.fix-right {
+		position: fixed;
+		right: 0px;
+	}
+	.unselectable {
+		user-select: none;
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		-webkit-user-select: none;
+		-o-user-select: none;
+	}
+	.hide-with-position {
+    right: -200px;
+	}
+
+</style>
+<script
+			  src="https://code.jquery.com/jquery-1.12.3.min.js"
+			  integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="
+			  crossorigin="anonymous"></script>
+
+	<div id="menu" class="menu foreground height-100 fix-right hide-with-position">
+		<div class="menu-button vertical-text unselectable" onclick="$('#menu').toggleClass('hide-with-position')">...</div>
+		<div class="menu-content height-100"></div>
+	</div>
+	<div id="overlay" class="overlay"></div>
+	<div id="container" class="container">
+		<div id="header" class="header center"></div>
+		<div id="slider" class="slider center"></div>
+		<div id="content" class="content center"></div>
+		<div id="footer" class="footer center"></div>
+	</div>
+</body>
+</html>

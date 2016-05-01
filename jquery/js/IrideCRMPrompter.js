@@ -1,16 +1,27 @@
 connection=undefined;
 startDate=undefined;
-
+settings = {};
 $(function() {
-	connection = new Connection('Pippo', {terminalId: 'fuffa', messageCallback: loadTuples});
+	var url = 'ws://127.0.0.1:8080/webapplication-api-crm/prompterWebSocketServer/';
+	connection = new Connection(url, 'Pippo', {
+		terminalId: 'fuffa', 
+		messageCallback: loadTuples,
+		acceptCallback: postAccept,
+		cancelCallback: postCancel,
+		rejectCallback: postReject,
+		startCallback: displayPrompter
+	});
 	startDate=(new Date()).getTime();
-	displayPrompter();
 });
-function displayPrompter() {
+function displayPrompter(message) {
+	if (message) {
+		settings = message;
+	}
 	$('<div/>')
 		.addClass('prompter-container')
 		.attr('id', 'container')
 		.appendTo('body');
+/*	HEADER */
 	$('<div/>')
 		.attr('id', 'header')
 		.addClass('header')
@@ -19,17 +30,25 @@ function displayPrompter() {
 		.attr('src', 'img/CRM.png')
 		.attr('height', '50px')
 		.appendTo('#header');
+/*  CONTENT */
 	$('<div/>')
 		.addClass('content')
 		.attr('id', 'content')
 		.appendTo('#container');
+/* TEXTAREA */
 	$('<textarea/>')
 		.attr('id', 'note')
 		.attr('placeholder', 'Scrivi la nota operatore')
+		.keyup(function () {
+			if (settings.enableAutomaticClassification || settings.enableAutomaticClassification == 'true') {
+				automaticClassify();
+			}
+		})
 		.focus()
 		.appendTo('#content');
+/*  CLASSIFY BUTTON */
 	$('<button/>')
-		.addClass('btn classify')
+		.addClass('btn classify hide-' + settings.enableAutomaticClassification)
 		.attr('id', 'classify')
 		.attr('title', 'Classifica')
 		.text('Classifica')
@@ -39,23 +58,24 @@ function displayPrompter() {
 			}
 		})
 		.appendTo('#content');
+/* CLEAR BUTTON */
 	$('<button/>')
 		.addClass('btn clear')
 		.attr('id', 'clear')
 		.attr('title', 'Annulla')
 		.val('Annulla')
 		.click(function() {
-			$('#note').val('');
-			$('#results').html('');
+			cancelClassification();
 		})
 		.appendTo('#content');
+/* REJECT BUTTON */ 
 	$('<button/>')
 		.addClass('btn reject')
 		.attr('id', 'reject')
 		.attr('title', 'Rifiuta')
 		.val('Rifiuta')
 		.click(function() {
-			alert($('#note').val());
+			rejectClassification();
 		})
 		.appendTo('#content');
 	$('<div/>')
@@ -63,13 +83,9 @@ function displayPrompter() {
 		.attr('id', 'results')
 		.appendTo('#container');
 }
-function classifyNote(note) {
-	var now = (new Date()).getTime();
-	var sessionDuration = Math.round((now - this.startDate)/1000);
-	connection.classifyNote(note, sessionDuration);
-}
 
 function loadTuples(args) {
+	$('#results').html('');
 	if(args && args != ''){
 		var msg = JSON.parse(args);
 		if(!msg[0]){
@@ -82,7 +98,7 @@ function loadTuples(args) {
 				.attr('id','accept-' + i)
 				.val(i)
 				.click(function() {
-					alert($(this).val());
+					acceptClassification($(this).val());
 				}).appendTo('#tupla-' + i);
 				for(var j in msg[i]) {
 					$('<span/>')
@@ -93,6 +109,54 @@ function loadTuples(args) {
 			}
 		}
 	}
+}
+
+function rejectClassification() {
+	connection.rejectClassification(calculateSessioDuration());
+}
+
+function cancelClassification() {
+	connection.cancelClassification(calculateSessioDuration());
+}
+
+function acceptClassification(tuplaId) {
+	connection.acceptClassification(tuplaId, calculateSessioDuration());
+}
+
+function classifyNote(note) {
+	connection.classifyNote(note);
+}
+
+function automaticClassify() {
+	if($('#note').val().split(" ").length > settings.numberOfWord) {
+		if (settings.automaticClassificationDelayTimeout && settings.automaticClassificationDelayTimeout > 0) {
+			setTimeout(classifyNote($('#note').val()), settings.automaticClassificationDelayTimeout);
+		} else {
+			classifyNote($('#note').val());
+		}
+	}
+}
+
+function calculateSessioDuration(){
+	var now = (new Date()).getTime();
+	var sessionDuration = Math.round((now - this.startDate)/1000);
+	return sessionDuration;
+}
+
+function reset() {
+	$('#note').val('');
+	$('#results').html('');
+}
+
+
+function postAccept() {
+	reset();
+}
+function postCancel() {
+	reset();
+}
+function postReject() {
+	reset();
 }
 /*
 	  <div class="results">

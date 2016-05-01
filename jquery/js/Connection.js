@@ -1,4 +1,4 @@
-  function Connection(contactId, settings) {
+  function Connection(url, contactId, settings) {
     this.contactId = contactId;
     this.settings = {};
     if(settings){
@@ -10,8 +10,26 @@
       this.connection.send(JSON.stringify(msg));
     }
 
+    this.rejectClassification = function (sessionDuration) {
+      var msg = new Message("REJECT");
+      msg.setSessionDuration(sessionDuration);
+      this.connection.send(JSON.stringify(msg));
+    }
 
-    this.wsUrl = 'ws://127.0.0.1:8080/webapplication-api-crm/prompterWebSocketServer/' + this.contactId;
+    this.cancelClassification = function (sessionDuration) {
+      var msg = new Message("CANCEL");
+      msg.setSessionDuration(sessionDuration);
+      this.connection.send(JSON.stringify(msg));
+    }
+
+    this.acceptClassification = function(idTupla, sessionDuration) {
+      var msg = new Message("ACCEPT");
+      msg.setTupleId(idTupla);
+      msg.setSessionDuration(sessionDuration);
+      this.connection.send(JSON.stringify(msg));
+    }
+
+    this.wsUrl = url + this.contactId;
     if (this.settings && this.settings.terminalId) {
       this.wsUrl = this.wsUrl+'?terminalId=' + this.settings.terminalId;
     }
@@ -33,14 +51,26 @@
     this.connection.onmessage = function (e) {
       var message = JSON.parse(e.data);
       console.log('Server responds with: ' + e.data);
-      if (message.terminalId){
+      if (message.type == 'CONFIG'){
         settings.terminalId = message.terminalId;
-        if(settings.messageCallback) {
-          settings.messageCallback(JSON.stringify(message.terminalId));
+        if(settings.startCallback) {
+          settings.startCallback(message);
         }
-      } else {
+      } else if (message.type == 'classify') {
         if(settings.messageCallback) {
           settings.messageCallback(JSON.stringify(message.idTupleToLevel));
+        }
+      } else if (message.type == 'ACCEPT') {
+        if(settings.acceptCallback) {
+          settings.acceptCallback(JSON.stringify(message.status));
+        }
+      } else if (message.type == 'REJECT') {
+        if(settings.rejectCallback) {
+          settings.rejectCallback(JSON.stringify(message.status));
+        }
+      } else if (message.type == 'CANCEL') {
+        if(settings.cancelCallback) {
+          settings.cancelCallback(JSON.stringify(message.status));
         }
       }
     };
@@ -66,6 +96,13 @@
   function Message (type, startClassificationInVO, idTupleToLevel) {
     this.type = type;
     this.startClassificationInVO = startClassificationInVO;
-
     this.idTupleToLevel = idTupleToLevel;
+    this.tupleId = undefined;
+    this.sessionDuration = undefined;
+    this.setTupleId = function(tupleId) {
+      this.tupleId = tupleId;
+    }
+    this.setSessionDuration = function(sessionDuration) {
+      this.sessionDuration = sessionDuration;
+    }
   }
