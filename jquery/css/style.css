@@ -1,0 +1,115 @@
+	@font-face {
+	  font-family: "FontAwesome";
+	  src: url("../font/fontawesome-webfont.eot");
+	  src: url("../font/fontawesome-webfont.eot?#iefix") format('embedded-opentype'), url("../font/fontawesome-webfont.woff") format('woff'), url("../font/fontawesome-webfont.ttf") format('truetype'), url("../font/fontawesome-webfont.svg#FontAwesome") format('svg');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+
+	@font-face {
+  	font-family: "IrideFont";
+	  src: url("../font/sosa-bariol_regular-webfont.eot");
+	  src: url("../font/bariol_regular-webfont.eot?#iefix") format('embedded-opentype'), url("../font/bariol_regular-webfont.woff") format('woff'), url("../font/bariol_regular-webfont.ttf") format('truetype'), url("../font/bariol_regular-webfont.svg#IrideFont") format('svg');
+	  font-weight: normal;
+	  font-style: normal;
+	  font-size: 20px;
+	}
+
+	body {
+  	font-family: "IrideFont";
+		color: #2D3E50;
+	  font-size: 20px;
+	}
+	.prompter-container {
+		position: relative;
+		padding: 20px;
+	}
+	.prompter-container textarea {
+		width: 100%;
+	}
+	.title {
+		font-size: 30px;
+	  font-weight: bold;
+		padding-right: 30px;
+	}
+	.float-right {
+		float: right;
+	}
+	.btn {
+	  -webkit-border-radius: 5;
+	  -moz-border-radius: 5;
+	  border-radius: 5px;
+	  color: #ffffff;
+	  font-size: 15px;
+	  background: none;
+	  border: none;
+	  text-decoration: none;
+	}
+	.btn.classify {
+	  background: #8c8c8c;
+	  padding: 10px 20px 10px 20px;
+	  border: solid #454545 2px;
+    top: -5px;
+    position: relative;
+	}
+
+	.btn.classify:hover {
+	  background: #ababab;
+	}
+	.reject.btn::before {
+	  font-family: "FontAwesome";
+		content:"";
+		font-size: 40px;
+		color: #D03A2F;
+	}
+	.accept.btn::before {
+	  font-family: "FontAwesome";
+		content:"";
+		font-size: 40px;
+		color: #4CAF50;
+	}
+	.clear.btn::before {
+	  font-family: "FontAwesome";
+		content:"";
+		font-size: 40px;
+		color: #D03A2F;
+	}
+	.btn:hover::before {
+	  color: #CCCCCC;
+	  text-decoration: none;
+	}
+	.clear.btn:hover::before, .reject.btn:hover::before {
+	  color: #EC483C;
+	  text-decoration: none;
+	}
+	.accept.btn:hover::before {
+	  color: #54C359;
+	  text-decoration: none;
+	}
+	.tuple-list {
+		padding-left: 20px;
+		padding-right: 20px;
+		border-right: 2px solid black;
+		display: inline-block;
+	}
+	.tuple-list:last-child {
+		border: none;
+	}
+	.tupla {
+		border-bottom: 1px solid black;
+		margin-bottom: 0px;
+	}
+	.tupla:nth-child(even) {
+		background-color: #eeeeee;
+		background-color: rgba(0, 0, 0, 0.05);
+	}
+	.results {
+		padding-top: 10px;
+	}
+	.hide-true {
+		display: none !important;
+	}
+	.error {
+		color: red;
+		font-weight: bold;
+	}

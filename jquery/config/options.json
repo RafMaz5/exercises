@@ -1,0 +1,13 @@
+{
+	"url" : "ws://127.0.0.1:8080/webapplication-api-crm/prompterWebSocketServer/",
+	"language" : null,
+	"classificationLogics" : [],
+	"enableAutomaticClassification" : null,
+	"numberOfWord" : null,
+	"automaticClassificationDelayTimeout" : null,
+	"completeClassificationTimeout" : null,
+	"enableCancelButton" : false,
+	"acceptCallback": null,
+	"cancelCallback": null,
+	"rejectCallback": null
+}
