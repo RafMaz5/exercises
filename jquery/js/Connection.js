@@ -43,6 +43,7 @@
     };
     this.connection.onclose = function () {
       console.log('WebSocket connection closed.');
+      reconnect();
       if(settings.closeCallback) {
         settings.closeCallback();
       }
@@ -74,8 +75,53 @@
         }
       }
     };
-  }
 
+    reconnect = function () {
+      connection = new WebSocket(connection.wsUrl || connection.url);
+      connection.onopen = function (e) {};
+      connection.onerror = function (error) {
+        console.log('WebSocket Error ' + error + "\nfor connection: " + + error.currentTarget.url);
+        if(settings.errorCallback) {
+          settings.errorCallback(error);
+        }
+      };
+      connection.onclose = function () {
+        console.log('WebSocket connection closed.');
+        reconnect();
+        if(settings.closeCallback) {
+          settings.closeCallback();
+        }
+      };
+      // Log messages from the server
+      connection.onmessage = function (e) {
+        var message = JSON.parse(e.data);
+        console.log('Server responds with: ' + e.data);
+        if (message.type == 'CONFIG'){
+          settings.terminalId = message.terminalId;
+          if(settings.startCallback) {
+            settings.startCallback(message);
+          }
+        } else if (message.type == 'classify') {
+          if(settings.messageCallback) {
+            settings.messageCallback(JSON.stringify(message.idTupleToLevel));
+          }
+        } else if (message.type == 'ACCEPT') {
+          if(settings.acceptCallback) {
+            settings.acceptCallback(JSON.stringify(message.status));
+          }
+        } else if (message.type == 'REJECT') {
+          if(settings.rejectCallback) {
+            settings.rejectCallback(JSON.stringify(message.status));
+          }
+        } else if (message.type == 'CANCEL') {
+          if(settings.cancelCallback) {
+            settings.cancelCallback(JSON.stringify(message.status));
+          }
+        }
+      };
+
+    }
+  }
   function StartClassificationInVO (contactId, textMessage,sessionDuration, language, classificationLogics, notShowExtractedConcepts, notShowNeRecognized) {
     this.contactId = contactId;
     this.textMessage = textMessage;

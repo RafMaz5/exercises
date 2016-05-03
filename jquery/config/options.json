@@ -1,8 +1,8 @@
 {
-	"url" : "ws://127.0.0.1:8080/webapplication-api-crm/prompterWebSocketServer/",
+	"url" : "ws://ServiceKeyHook:u2IwG5wznTEhaHdLlLHGw7HX+C0=@127.0.0.1:8080/webapplication-api-crm/prompterWebSocketServer/",
 	"language" : null,
 	"classificationLogics" : [],
-	"enableAutomaticClassification" : null,
+	"enableAutomaticClassification" : true,
 	"numberOfWord" : null,
 	"automaticClassificationDelayTimeout" : null,
 	"completeClassificationTimeout" : null,
