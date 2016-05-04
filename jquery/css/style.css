@@ -5,22 +5,14 @@
 	  font-weight: normal;
 	  font-style: normal;
 	}
-	.prompter-container {
+	.iride-crm-prompter-container {
 		position: relative;
 		padding: 20px;
 	}
-	.prompter-container textarea {
+	.iride-crm-prompter-container textarea {
 		width: 100%;
 	}
-	.title {
-		font-size: 30px;
-	  font-weight: bold;
-		padding-right: 30px;
-	}
-	.float-right {
-		float: right;
-	}
-	.btn {
+	.iride-crm-btn {
 	  -webkit-border-radius: 5;
 	  -moz-border-radius: 5;
 	  border-radius: 5px;
@@ -30,7 +22,7 @@
 	  border: none;
 	  text-decoration: none;
 	}
-	.btn.classify {
+	.iride-crm-btn.iride-crm-classify {
 	  background: #8c8c8c;
 	  padding: 10px 20px 10px 20px;
 	  border: solid #454545 2px;
@@ -38,63 +30,67 @@
     position: relative;
 	}
 
-	.btn.classify:hover {
+	.iride-crm-btn.iride-crm-classify:hover {
 	  background: #ababab;
 	}
-	.reject.btn::before {
+	.iride-crm-reject,.iride-crm-clear {
+		display: block;
+	}
+
+	.iride-crm-reject::before {
 	  font-family: "FontAwesome";
 		content:"";
 		font-size: 40px;
 		color: #D03A2F;
 	}
-	.accept.btn::before {
+	.iride-crm-accept::before {
 	  font-family: "FontAwesome";
 		content:"";
 		font-size: 40px;
 		color: #4CAF50;
 	}
-	.clear.btn::before {
+	.iride-crm-clear::before {
 	  font-family: "FontAwesome";
 		content:"";
 		font-size: 40px;
 		color: #D03A2F;
 	}
-	.btn:hover::before {
+	.iride-crm-btn:hover::before {
 	  color: #CCCCCC;
 	  text-decoration: none;
 	}
-	.clear.btn:hover::before, .reject.btn:hover::before {
+	.iride-crm-btn.iride-crm-clear:hover::before, .iride-crm-reject:hover::before {
 	  color: #EC483C;
 	  text-decoration: none;
 	}
-	.accept.btn:hover::before {
+	.iride-crm-btn.iride-crm-accept:hover::before {
 	  color: #54C359;
 	  text-decoration: none;
 	}
-	.tuple-list {
+	.iride-crm-tuple-list {
 		padding-left: 20px;
 		padding-right: 20px;
 		border-right: 2px solid black;
 		display: inline-block;
 	}
-	.tuple-list:last-child {
+	.iride-crm-tuple-list:last-child {
 		border: none;
 	}
-	.tupla {
+	.iride-crm-tupla {
 		border-bottom: 1px solid black;
 		margin-bottom: 0px;
 	}
-	.tupla:nth-child(even) {
+	.iride-crm-tupla:nth-child(even) {
 		background-color: #eeeeee;
 		background-color: rgba(0, 0, 0, 0.05);
 	}
-	.results {
+	.iride-crm-results {
 		padding-top: 10px;
 	}
-	.hide-true {
+	.iride-crm-hide-true {
 		display: none !important;
 	}
-	.error {
+	.iride-crm-error {
 		color: red;
 		font-weight: bold;
 	}

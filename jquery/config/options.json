@@ -6,7 +6,7 @@
 	"numberOfWord" : null,
 	"automaticClassificationDelayTimeout" : null,
 	"completeClassificationTimeout" : null,
-	"enableCancelButton" : false,
+	"enableCancelButton" : true,
 	"acceptCallback": null,
 	"cancelCallback": null,
 	"rejectCallback": null
