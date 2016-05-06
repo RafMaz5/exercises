@@ -58,5 +58,5 @@ function I18N (lang) {
 	if (!msg[language]) {
 		language = navigator.language || navigator.userLanguage;
 	}
-	return msg[language];
+	return msg[language.split('-')[0]];
 }

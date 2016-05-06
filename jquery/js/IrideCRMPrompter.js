@@ -3,8 +3,9 @@ function IrideCRMPrompter (container, options) {
 	loadScript('jquery-1.12.3.min', function(){
 		loadScript('Connection', function(){
 			loadScript('i18n', function(){
-				I18Nmsg = undefined;
-				settings = {
+				var I18Nmsg = undefined;
+				var connection = undefined;
+				var settings = {
 					container: undefined,
 					url : undefined,
 					terminalId : undefined,
@@ -29,11 +30,44 @@ function IrideCRMPrompter (container, options) {
 				if (options.contactId) {
 					settings.contactId = options.contactId;
 				}
-				if (options.url) {
-					settings.url = options.url;
+				reloadSettings = function(options) {
+					if (!settings.url) {
+						settings.url = options.url;
+					}
+					if (!settings.language && options.language) {
+						settings.language = options.language;
+						I18Nmsg = new I18N();
+					}
+					if (settings.classificationLogics.length == 0 && options.classificationLogics) {
+						settings.classificationLogics = options.classificationLogics;
+					}
+					if (!settings.numberOfWord && options.numberOfWord) {
+						settings.numberOfWord = options.numberOfWord;
+					}
+					if (settings.enableAutomaticClassification == undefined) {
+						settings.enableAutomaticClassification = options.enableAutomaticClassification;
+					}
+					if (!settings.automaticClassificationDelayTimeout && options.automaticClassificationDelayTimeout) {
+						settings.automaticClassificationDelayTimeout = options.automaticClassificationDelayTimeout;
+					}
+					if (!settings.completeClassificationTimeout && options.completeClassificationTimeout) {
+						settings.completeClassificationTimeout = options.completeClassificationTimeout;
+					}
+					if (settings.enableCancelButton == undefined) {
+						settings.enableCancelButton = options.enableCancelButton;
+					}
+					if (!settings.acceptCallback && options.acceptCallback) {
+						settings.acceptCallback = options.acceptCallback;
+					}
+					if (!settings.cancelCallback && options.cancelCallback) {
+						settings.cancelCallback = options.cancelCallback;
+					}
+					if (!settings.rejectCallback && options.rejectCallback) {
+						settings.rejectCallback = options.rejectCallback;
+					}
+
 				}
-				var complete = false;
-				var config = undefined;
+				reloadSettings(options);
 				$.getJSON( "config/options.json", function(data) {
 					reloadSettings(data);
 				})
@@ -108,6 +142,8 @@ function IrideCRMPrompter (container, options) {
 					if(message){
 						reloadSettings(message)
 					}
+					$('#'+settings.container+' #container').remove();
+
 					$('<div/>')
 						.addClass('iride-crm-prompter-container')
 						.attr('id', 'container')
@@ -175,46 +211,6 @@ function IrideCRMPrompter (container, options) {
 						.appendTo('#container');
 				}
 
-				reloadSettings = function(options) {
-					if (!settings.url) {
-						settings.url = options.url;
-					}
-					if (!settings.language) {
-						settings.language = options.language;
-					}
-					if (!settings.language) {
-						settings.language = options.language;
-						I18Nmsg = new I18N();
-					}
-					if (settings.classificationLogics.length == 0) {
-						settings.classificationLogics = options.classificationLogics;
-					}
-					if (!settings.numberOfWord) {
-						settings.numberOfWord = options.numberOfWord;
-					}
-					if (settings.enableAutomaticClassification == undefined) {
-						settings.enableAutomaticClassification = options.enableAutomaticClassification;
-					}
-					if (!settings.automaticClassificationDelayTimeout) {
-						settings.automaticClassificationDelayTimeout = options.automaticClassificationDelayTimeout;
-					}
-					if (!settings.completeClassificationTimeout) {
-						settings.completeClassificationTimeout = options.completeClassificationTimeout;
-					}
-					if (settings.enableCancelButton == undefined) {
-						settings.enableCancelButton = options.enableCancelButton;
-					}
-					if (!settings.acceptCallback) {
-						settings.acceptCallback = options.acceptCallback;
-					}
-					if (!settings.cancelCallback) {
-						settings.cancelCallback = options.cancelCallback;
-					}
-					if (!settings.rejectCallback) {
-						settings.rejectCallback = options.rejectCallback;
-					}
-
-				}
 				rejectClassification = function() {
 					connection.rejectClassification(calculateSessioDuration());
 				}
