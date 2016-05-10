@@ -20,6 +20,7 @@ function IrideCRMPrompter (container, options) {
 					acceptCallback: undefined,
 					cancelCallback: undefined,
 					rejectCallback: undefined,
+					isMaster: true,
 				};
 				if (container) {
 					settings.container = container;
@@ -33,6 +34,9 @@ function IrideCRMPrompter (container, options) {
 				reloadSettings = function(options) {
 					if (!settings.url) {
 						settings.url = options.url;
+					}
+					if (options.isMaster == false) {
+						settings.isMaster = options.isMaster;
 					}
 					if (!settings.language && options.language) {
 						settings.language = options.language;
@@ -81,10 +85,16 @@ function IrideCRMPrompter (container, options) {
 						acceptCallback: postAccept,
 						cancelCallback: postCancel,
 						rejectCallback: postReject,
-						startCallback: displayPrompter
+						closeCallback: postClose,
+						startCallback: displayPrompter,
+						isMaster: settings.isMaster
 					});
 					startDate=(new Date()).getTime();
 			  })
+
+			  postClose = function(arg) {
+			  	$('.toDisable').attr('disabled', 'disabled');
+			  }
 
 				postAccept = function(arg) {
 					reset();
@@ -107,7 +117,12 @@ function IrideCRMPrompter (container, options) {
 				loadTuples = function (args) {
 					$('#results').html('');
 					if(args && args != ''){
-						var msg = JSON.parse(args);
+						var msgComplete = JSON.parse(args);
+						var msg = msgComplete.idTupleToLevel;
+						if (settings.isMaster == false) {
+							var note = msgComplete.startClassificationInVO.textMessage;
+							$('#noteDiv').text(note);
+						}
 						var width = undefined;
 						if(!msg[0]){
 							for (var i in msg)  {
@@ -115,7 +130,7 @@ function IrideCRMPrompter (container, options) {
 									.addClass('iride-crm-tupla')
 									.attr('id', 'tupla-' + i).appendTo('#results');
 								$('<button/>')
-								.addClass('iride-crm-btn iride-crm-accept')
+								.addClass('toDisable iride-crm-btn iride-crm-accept')
 								.attr('id','accept-' + i)
 								.attr('title',	I18Nmsg['accept.title'])
 								.val(i)
@@ -165,6 +180,7 @@ function IrideCRMPrompter (container, options) {
 				/* TEXTAREA */
 					$('<textarea/>')
 						.attr('id', 'note')
+						.addClass('toDisable iride-crm-hide-'+ !settings.isMaster)
 						.attr('rows', 5)
 						.attr('placeholder', I18Nmsg['textarea.placeholder'])
 						.keyup(function () {
@@ -174,9 +190,13 @@ function IrideCRMPrompter (container, options) {
 						})
 						.focus()
 						.appendTo('#content');
+					$('<div/>')
+						.attr('id', 'noteDiv')
+						.addClass('iride-crm-hide-'+ settings.isMaster)
+						.appendTo('#content');
 				/*  CLASSIFY BUTTON */
 					$('<button/>')
-						.addClass('iride-crm-btn iride-crm-classify iride-crm-hide-' + settings.enableAutomaticClassification)
+						.addClass('toDisable iride-crm-btn iride-crm-classify iride-crm-hide-' + settings.enableAutomaticClassification)
 						.attr('id', 'classify')
 						.attr('title', I18Nmsg['classify.title'])
 						.text(I18Nmsg['classify.btn'])
@@ -188,7 +208,7 @@ function IrideCRMPrompter (container, options) {
 						.appendTo('#content');
 				/* CLEAR BUTTON */
 					$('<button/>')
-						.addClass('iride-crm-btn iride-crm-clear iride-crm-hide-' + (!settings.enableCancelButton))
+						.addClass('toDisable iride-crm-btn iride-crm-clear iride-crm-hide-' + (!settings.enableCancelButton))
 						.attr('id', 'clear')
 						.attr('title', I18Nmsg['clear.title'])
 						.click(function() {
@@ -197,7 +217,7 @@ function IrideCRMPrompter (container, options) {
 						.appendTo('#content');
 				/* REJECT BUTTON */ 
 					$('<button/>')
-						.addClass('iride-crm-btn iride-crm-reject')
+						.addClass('toDisable iride-crm-btn iride-crm-reject')
 						.attr('id', 'reject')
 						.css('display', 'none')
 						.attr('title', I18Nmsg['reject.title'])
@@ -249,6 +269,7 @@ function IrideCRMPrompter (container, options) {
 				}
 				reset = function() {
 					$('#note').val('');
+					$('#noteDiv').text('');
 					$('#results').html('');
 					$('button#clear').show();
 					$('button#reject').hide();
@@ -259,9 +280,8 @@ function IrideCRMPrompter (container, options) {
 }
 
 function loadStyle(cssName) {
-	var cssId = 'iride-css';  // you could encode the css path itself to generate id..
-	if (!document.getElementById(cssId))
-	{
+	var cssId = 'iride-css'; 
+	if (!document.getElementById(cssId)) {
 	    var head  = document.getElementsByTagName('head')[0];
 	    var link  = document.createElement('link');
 	    link.id   = cssId;
@@ -273,10 +293,8 @@ function loadStyle(cssName) {
 	}
 }
 function loadScript(jsName, callback){
-
     var script = document.createElement("script")
     script.type = "text/javascript";
-
     if (script.readyState){  //IE
         script.onreadystatechange = function(){
             if (script.readyState == "loaded" ||
@@ -292,7 +310,6 @@ function loadScript(jsName, callback){
             	callback();
         };
     }
-
     script.src = 'js/' + jsName + '.js';
     document.getElementsByTagName("head")[0].appendChild(script);
 }

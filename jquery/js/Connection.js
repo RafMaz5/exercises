@@ -34,6 +34,11 @@
       var wsUrl = url + contactId;
       if (config && config.terminalId) {
         wsUrl = wsUrl+'?terminalId=' + config.terminalId;
+        if (config.isMaster != undefined) {
+          wsUrl = wsUrl+'&isMaster=' + config.isMaster;
+        }
+      } else if (config && config.isMaster != undefined) {
+        wsUrl = wsUrl+'?isMaster=' + config.isMaster;
       }
       return wsUrl;
     }
@@ -65,7 +70,7 @@
           }
         } else if (message.type == 'classify') {
           if(config.messageCallback) {
-            config.messageCallback(JSON.stringify(message.idTupleToLevel));
+            config.messageCallback(JSON.stringify(message));
           }
         } else if (message.type == 'ACCEPT') {
           if(config.acceptCallback) {

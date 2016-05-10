@@ -1,5 +1,5 @@
 {
-	"url" : "ws://ServiceKeyHook:u2IwG5wznTEhaHdLlLHGw7HX+C0=@127.0.0.1:8080/webapplication-api-crm/prompterWebSocketServer/",
+	"url" : "ws://ServiceKeyHook:u2IwG5wznTEhaHdLlLHGw7HX+C0=@10.100.204.141:8080/webapplication-api-crm/prompterWebSocketServer/",
 	"language" : null,
 	"classificationLogics" : [],
 	"enableAutomaticClassification" : true,
@@ -9,5 +9,6 @@
 	"enableCancelButton" : true,
 	"acceptCallback": null,
 	"cancelCallback": null,
-	"rejectCallback": null
+	"rejectCallback": null,
+	"isMaster": false
 }
